@@ -1,0 +1,19 @@
+The following values were not passed to `accelerate launch` and had defaults used instead:
+	`--num_processes` was set to a value of `1`
+	`--num_machines` was set to a value of `1`
+	`--mixed_precision` was set to a value of `'no'`
+	`--dynamo_backend` was set to a value of `'no'`
+To avoid this warning pass in values for each of the problematic parameters or run `accelerate config`.
+2025-10-24:02:12:53 INFO     [__main__:440] Selected Tasks: ['mbpp']
+2025-10-24:02:12:53 WARNING  [evaluator:163] Model appears to be an instruct variant but chat template is not applied. Recommend setting `apply_chat_template` (optionally `fewshot_as_multiturn`).
+2025-10-24:02:12:53 INFO     [evaluator:189] Setting random seed to 0 | Setting numpy seed to 1234 | Setting torch manual seed to 1234 | Setting fewshot manual seed to 1234
+2025-10-24:02:12:53 INFO     [evaluator:227] Initializing llada_dist model, with arguments: {'model_path': 'GSAI-ML/LLaDA-8B-Instruct', 'gen_length': 128, 'steps': 128, 'block_length': 32, 'show_speed': True}
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading checkpoint shards:   0%|          | 0/6 [00:00<?, ?it/s]Loading checkpoint shards: 100%|██████████| 6/6 [00:00<00:00, 178.65it/s]
+2025-10-24:02:13:06 INFO     [evaluator:290] mbpp: Using gen_kwargs: {'until': ['[DONE]'], 'do_sample': False}
+2025-10-24:02:13:06 WARNING  [evaluator:309] Overwriting default num_fewshot of mbpp from 3 to 3
+2025-10-24:02:13:06 INFO     [api.task:434] Building contexts for mbpp on rank 0...
+  0%|          | 0/500 [00:00<?, ?it/s]  3%|▎         | 16/500 [00:00<00:03, 155.40it/s]  6%|▋         | 32/500 [00:00<00:02, 156.85it/s] 10%|▉         | 48/500 [00:00<00:02, 156.31it/s] 13%|█▎        | 64/500 [00:00<00:02, 154.47it/s] 16%|█▌        | 80/500 [00:00<00:02, 152.41it/s] 19%|█▉        | 96/500 [00:00<00:02, 151.35it/s] 22%|██▏       | 112/500 [00:00<00:02, 151.43it/s] 26%|██▌       | 128/500 [00:00<00:02, 150.66it/s] 29%|██▉       | 144/500 [00:00<00:02, 153.16it/s] 32%|███▏      | 161/500 [00:01<00:02, 155.40it/s] 36%|███▌      | 178/500 [00:01<00:02, 157.09it/s] 39%|███▉      | 194/500 [00:01<00:01, 157.92it/s] 42%|████▏     | 210/500 [00:01<00:01, 158.33it/s] 45%|████▌     | 227/500 [00:01<00:01, 159.05it/s] 49%|████▉     | 244/500 [00:01<00:01, 159.80it/s] 52%|█████▏    | 261/500 [00:01<00:01, 160.25it/s] 56%|█████▌    | 278/500 [00:01<00:01, 160.49it/s] 59%|█████▉    | 295/500 [00:01<00:01, 160.86it/s] 62%|██████▏   | 312/500 [00:01<00:01, 161.09it/s] 66%|██████▌   | 329/500 [00:02<00:01, 161.41it/s] 69%|██████▉   | 346/500 [00:02<00:00, 160.99it/s] 73%|███████▎  | 363/500 [00:02<00:00, 160.66it/s] 76%|███████▌  | 380/500 [00:02<00:00, 160.70it/s] 79%|███████▉  | 397/500 [00:02<00:00, 161.12it/s] 83%|████████▎ | 414/500 [00:02<00:00, 161.04it/s] 86%|████████▌ | 431/500 [00:02<00:00, 161.31it/s] 90%|████████▉ | 448/500 [00:02<00:00, 161.40it/s] 93%|█████████▎| 465/500 [00:02<00:00, 161.61it/s] 96%|█████████▋| 482/500 [00:03<00:00, 161.54it/s]100%|█████████▉| 499/500 [00:03<00:00, 161.74it/s]100%|██████████| 500/500 [00:03<00:00, 158.71it/s]
+2025-10-24:02:13:09 INFO     [evaluator:559] Running generate_until requests
+Batching...:   0%|          | 0/500 [00:00<?, ?it/s]Batching...: 100%|██████████| 500/500 [00:00<00:00, 2314737.31it/s]
+Generating...:   0%|          | 0/500 [00:00<?, ?it/s]

@@ -1,0 +1,19 @@
+The following values were not passed to `accelerate launch` and had defaults used instead:
+	`--num_processes` was set to a value of `1`
+	`--num_machines` was set to a value of `1`
+	`--mixed_precision` was set to a value of `'no'`
+	`--dynamo_backend` was set to a value of `'no'`
+To avoid this warning pass in values for each of the problematic parameters or run `accelerate config`.
+2025-10-24:02:12:53 INFO     [__main__:440] Selected Tasks: ['humaneval']
+2025-10-24:02:12:53 WARNING  [evaluator:163] Model appears to be an instruct variant but chat template is not applied. Recommend setting `apply_chat_template` (optionally `fewshot_as_multiturn`).
+2025-10-24:02:12:53 INFO     [evaluator:189] Setting random seed to 0 | Setting numpy seed to 1234 | Setting torch manual seed to 1234 | Setting fewshot manual seed to 1234
+2025-10-24:02:12:53 INFO     [evaluator:227] Initializing llada_dist model, with arguments: {'model_path': 'GSAI-ML/LLaDA-8B-Instruct', 'gen_length': 128, 'steps': 128, 'block_length': 32, 'show_speed': True}
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading checkpoint shards:   0%|          | 0/6 [00:00<?, ?it/s]Loading checkpoint shards: 100%|██████████| 6/6 [00:00<00:00, 174.52it/s]
+2025-10-24:02:13:07 INFO     [evaluator:290] humaneval: Using gen_kwargs: {'until': ['\nclass', '\ndef', '\n#', '\nif', '\nprint'], 'max_gen_toks': 1024, 'do_sample': False}
+2025-10-24:02:13:07 INFO     [evaluator:305] num_fewshot has been set to 0 for humaneval in its config. Manual configuration will be ignored.
+2025-10-24:02:13:07 INFO     [api.task:434] Building contexts for humaneval on rank 0...
+  0%|          | 0/164 [00:00<?, ?it/s]100%|██████████| 164/164 [00:00<00:00, 3025.08it/s]
+2025-10-24:02:13:07 INFO     [evaluator:559] Running generate_until requests
+Batching...:   0%|          | 0/164 [00:00<?, ?it/s]Batching...: 100%|██████████| 164/164 [00:00<00:00, 2163100.18it/s]
+Generating...:   0%|          | 0/164 [00:00<?, ?it/s]Generating...:   1%|          | 1/164 [00:11<30:58, 11.40s/it]
