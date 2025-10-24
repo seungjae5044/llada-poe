@@ -12,54 +12,57 @@ import csv
 def parse_directory_name(dir_name: str) -> Dict[str, str]:
     """Parse directory name to extract model info and config."""
     # Examples:
-    # - fastdllm8b_block_aware_gsm8k_128
-    # - llada8b_reuse_humaneval_256
+    # - llada15_gsm8k_128
+    # - llada15_gsm8k_Top-8_128
+    # - llada8b_humaneval_256
 
     parts = dir_name.split('_')
 
-    # Determine model type
-    if dir_name.startswith('fastdllm'):
-        model_type = 'Fast-dLLM'
-        remaining = dir_name[8:]  # Remove 'fastdllm'
-    elif dir_name.startswith('llada'):
+    # Determine model type and size
+    if dir_name.startswith('llada15'):
         model_type = 'LLaDA'
-        remaining = dir_name[5:]  # Remove 'llada'
+        model_size = '1.5'
+        remaining = dir_name[7:]  # Remove 'llada15'
+    elif dir_name.startswith('llada8b'):
+        model_type = 'LLaDA'
+        model_size = '8B'
+        remaining = dir_name[7:]  # Remove 'llada8b'
     else:
         model_type = 'Unknown'
+        model_size = 'Unknown'
         remaining = dir_name
 
-    # Extract model size
-    if remaining.startswith('8b_'):
-        model_size = '8B'
-        remaining = remaining[3:]
-    elif remaining.startswith('15_'):
-        model_size = '1.5'
-        remaining = remaining[3:]
-    else:
-        model_size = 'Unknown'
+    # Remove leading underscore if present
+    if remaining.startswith('_'):
+        remaining = remaining[1:]
 
-    # Extract strategy (block_aware or reuse)
-    if remaining.startswith('block_aware_'):
-        strategy = 'Block-aware'
-        remaining = remaining[12:]
-    elif remaining.startswith('reuse_'):
-        strategy = 'Reuse'
-        remaining = remaining[6:]
-    else:
-        # No explicit strategy in name - likely baseline
-        strategy = 'Baseline'
-
-    # Extract dataset and gen_length
+    # Extract dataset, strategy, and gen_length
     parts = remaining.split('_')
+
     if len(parts) >= 2:
         dataset = parts[0]
-        gen_length = parts[1]
+
+        # Check if there's a strategy indicator (Top-8, Top-16, etc.)
+        if len(parts) >= 3 and 'Top' in parts[1]:
+            strategy = parts[1]  # Top-8, Top-16
+            gen_length = parts[2]
+        else:
+            # No Top-k, just gen_length
+            gen_length = parts[1]
+            # Determine strategy from other indicators
+            if len(parts) >= 3:
+                # Could be cache, baseline, invert, etc.
+                strategy = parts[2]
+            else:
+                strategy = 'Baseline'
     elif len(parts) == 1:
         dataset = parts[0]
         gen_length = 'Unknown'
+        strategy = 'Baseline'
     else:
         dataset = 'Unknown'
         gen_length = 'Unknown'
+        strategy = 'Baseline'
 
     return {
         'model_type': model_type,
@@ -158,7 +161,12 @@ def extract_metrics_from_json(json_path: Path, dataset_type: str) -> Dict[str, f
 
 def main():
     """Main function to extract all metrics and output CSV."""
-    base_dir = Path('.')
+    # Use benchmark_results directory
+    base_dir = Path('benchmark_results')
+
+    if not base_dir.exists():
+        print(f"Error: {base_dir} directory not found!")
+        return
 
     # Find all result directories
     result_dirs = [d for d in base_dir.iterdir() if d.is_dir() and not d.name.startswith('.')]
